@@ -1,0 +1,27 @@
+{
+  "name": "dnd-nuxt",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxtjs/i18n": "^10.6.0",
+    "@pinia/nuxt": "^1.0.2",
+    "@types/telegram-web-app": "^9.6.0",
+    "axios": "^1.19.0",
+    "nuxt": "^4.5.2",
+    "pinia": "^4.0.3",
+    "sass-embedded": "^1.102.0",
+    "vue": "^3.5.41",
+    "vue-i18n": "^11.4.8",
+    "vue-router": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0"
+  }
+}
