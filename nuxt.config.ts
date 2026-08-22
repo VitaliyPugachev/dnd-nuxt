@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ['@pinia/nuxt', '@nuxtjs/i18n'],
   css: ['~/assets/base.scss'],
   i18n: {
@@ -11,5 +11,9 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'ru',
     strategy: 'prefix_except_default', // Добавляет префикс /en/ к URL для всех языков, кроме дефолтного
+  },
+  devServer: {
+    port: 8080,
+    host: "localhost"
   }
 })

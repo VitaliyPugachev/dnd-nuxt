@@ -1,5 +1,9 @@
 <script setup lang="ts">
 
+definePageMeta({
+  middleware: 'auth'
+})
+
 import { useRouter } from 'vue-router'
 import type { CharacterModel } from '@/types/CharacterModel.ts'
 import CharacterCard from '@/components/ui/CharacterCard.vue'

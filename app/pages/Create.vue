@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: 'auth'
+})
 
 import InputUi from '~/components/ui/Input.vue'
 import RoundedInput from '@/components/ui/RoundedInput.vue'

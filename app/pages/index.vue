@@ -5,6 +5,10 @@ import { useThemeStore } from '@/stores/themeStore.ts'
 import { useI18n } from 'vue-i18n'
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher.vue'
 
+definePageMeta({
+  middleware: 'auth'
+})
+
 const router = useRouter();
 const {currentTheme} = storeToRefs(useThemeStore())
 const {changeTheme} = useThemeStore()
@@ -17,7 +21,6 @@ const {t} = useI18n()
     <div class="home-page__image-wrapper">
       <img class="home-page__image" src="/icons/logo.webp">
     </div>
-
     <UiButton
       :label="t('home.newCharacter')"
       class="home-page__button"
@@ -37,7 +40,7 @@ const {t} = useI18n()
       <IconsMoon v-if="currentTheme === 'light'"/>
       <IconsSun v-else class="home-page__sun-icon"/>
     </div>
-    <LanguageSwitcher/>
+    <LanguageSwitcher class="lang"/>
   </div>
 </template>
 
@@ -48,6 +51,8 @@ const {t} = useI18n()
   gap: 12px;
   align-items: center;
   position: relative;
+  height: 90vh;
+  width: 100%;
 
   &__image-wrapper {
     width: 220px;
@@ -80,6 +85,12 @@ const {t} = useI18n()
 
   &__button {
     align-self: stretch;
+  }
+
+  .lang {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
   }
 }
 </style>
