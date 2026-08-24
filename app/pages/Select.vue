@@ -9,14 +9,13 @@ import type { CharacterModel } from '@/types/CharacterModel.ts'
 import CharacterCard from '@/components/ui/CharacterCard.vue'
 import AppLoader from '@/components/ui/AppLoader.vue'
 import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/stores/user.ts'
 import { useNotificationStore } from '@/stores/notification.ts'
 import ModalComponent from '@/components/widgets/ModalComponent.vue'
 
 const router = useRouter()
 const loading = ref(false);
 const deleteLoading = ref(false);
-const {userId, isAuth} = storeToRefs(useUserStore());
+const { user, isAuth } = storeToRefs(useAuth());
 const {showNotification} = useNotificationStore();
 
 const isDeleteModalOpen = ref(false);

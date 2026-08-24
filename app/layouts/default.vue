@@ -17,6 +17,7 @@ onMounted(() => {
 <template>
   <main :class="['layout', theme]">
     <NuxtPage/>
+    <UiAppNotification/>
   </main>
 </template>
 

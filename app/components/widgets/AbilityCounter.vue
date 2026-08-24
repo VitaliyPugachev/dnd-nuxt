@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const {bonusPoints, isLevelUp} = defineProps<{
+const { bonusPoints, isLevelUp } = defineProps<{
   label: string,
   bonusPoints: number,
   baseStat?: number,
@@ -52,7 +52,7 @@ const upgradeCost = computed(() => {
           +{{bonusPoints}}
       </span>
     </div>
-    <UiCounterUi
+    <UiCounter
       :dec-disabled="model <= (baseStat || 8)"
       :inc-disabled="model >= (maxStat || 15) || availablePoints < (isLevelUp ? 1 : upgradeCost)"
       :model-value="displayValue"

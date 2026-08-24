@@ -4,9 +4,7 @@ definePageMeta({
 })
 
 import InputUi from '~/components/ui/Input.vue'
-import RoundedInput from '@/components/ui/RoundedInput.vue'
 import { computed, onUnmounted, reactive, ref } from 'vue'
-import AbilityCounter from '@/components/widgets/AbilityCounter.vue'
 import { useRouter } from 'vue-router'
 import type {
   CharacterAbilities,
@@ -17,29 +15,26 @@ import {
   calcProficiencyBonus,
   characterAlignments,
   characterClasses,
-  characterRaces, getHitsByClass, getSkillPointByClass, getSpeedByRace, skillPointsByClass
+  characterRaces, getHitsByClass, getSkillPointByClass, getSpeedByRace
 } from '@/types/local.ts'
-import { useUserStore } from '@/stores/user.ts'
 import { storeToRefs } from 'pinia'
 import { applyRaceBonusStats } from '@/utils/statsUtil.ts'
 import CharacterSecondaryStats from '@/components/ui/CharacterSecondaryStats.vue'
 import StatsModifiers from '@/components/ui/StatsModifiers.vue'
-import CharacterSkills from '@/components/ui/CharacterSkills.vue'
 import { calcModifiers } from '@/utils/calcModifiers.ts'
 import { backgroundList, getBonusSkillsByBackground } from '@/constants/BackgroundList.ts'
-import CharacterEquipment from '@/components/ui/CharacterEquipment.vue'
 import { applySavingThrowProficiencies } from '@/utils/getSavingThrow.ts'
 import SavingThrows from '@/components/ui/SavingThrows.vue'
-import CharacterSpells from '@/components/ui/CharacterSpells.vue'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 import { useCreateCharacter } from '@/composables/useCreateCharacter.ts'
 import PhotoUploader from '@/components/ui/PhotoUploader.vue'
 import { POPUP_TEXT } from '@/constants/InfoText.ts'
+import characterApi from '@/api/character'
 
 const router = useRouter();
 const loading = ref(false);
-const {showNotification} = useNotificationStore();
-const {userId, isAuth} = storeToRefs(useUserStore());
+const { showNotification } = useNotificationStore();
+const { isAuth } = storeToRefs(useAuth());
 
 const {
   newCharacter,
@@ -111,7 +106,7 @@ const armorClass = computed(() => {
   }
 
   if (!newCharacter.equipment?.armor?.length
-    || (newCharacter.equipment?.armor?.length && newCharacter.equipment.armor[0].type === 'щит')
+    || (newCharacter.equipment?.armor?.length && newCharacter?.equipment?.armor?.[0]?.type === 'щит')
   ) {
     value += 10 + statsModifiers.value.dexterity
     if (newCharacter.class === 'Монах') {
@@ -126,16 +121,16 @@ const armorClass = computed(() => {
 
   let equippedArmor = newCharacter.equipment.armor[0];
 
-  if (equippedArmor.type === 'щит' && newCharacter.equipment.armor.length > 1) {
+  if (equippedArmor?.type === 'щит' && newCharacter.equipment.armor.length > 1) {
     equippedArmor = newCharacter.equipment.armor[1];
   }
 
-  if (equippedArmor.type === 'тяжёлый') return value + equippedArmor.ac;
-  if (equippedArmor.type === 'средний') {
+  if (equippedArmor?.type === 'тяжёлый') return value + equippedArmor.ac;
+  if (equippedArmor?.type === 'средний') {
     return value + (statsModifiers.value.dexterity > 2 ? 2 : statsModifiers.value.dexterity) + equippedArmor.ac
   }
 
-  return value + statsModifiers.value.dexterity + equippedArmor.ac;
+  return value + statsModifiers.value.dexterity + (equippedArmor?.ac || 0);
 })
 
 const clearBonusAbilities = () => {
@@ -228,11 +223,10 @@ const createNewCharacter = async () => {
 
   newCharacter.combat.currentHp = classHits.value + (statsModifiers.value.constitution * newCharacter.level);
 
-  // const {data, error} = await supabase.from('Character').insert([
-  //   { ...newCharacter, userId: userId.value }
-  // ]);
-  if (error) {
-    showNotification(error.message, 3000, 'error');
+  const { success, message } = await characterApi.createCharacter(newCharacter)
+
+  if (!success) {
+    showNotification(message || "Не удалось создать персонажа", 3000, 'error');
   } else {
     showNotification('Персонаж успешно создан!', 4000);
     clearData();
@@ -287,7 +281,7 @@ onUnmounted(() => {
       <section class="create-page__section">
         <h4 class="create-page__subtitle">Информация о персонаже</h4>
         <div class="create-page__row">
-          <RoundedInput
+          <UiRoundedInput
             v-model="newCharacter.class"
             ref="classElement"
             label="Класс"
@@ -295,7 +289,7 @@ onUnmounted(() => {
             :options="characterClasses"
             @update:model-value="onChangeClass"
           />
-          <RoundedInput
+          <UiRoundedInput
             v-model="newCharacter.race"
             label="Раса"
             type="select"
@@ -304,14 +298,14 @@ onUnmounted(() => {
           />
         </div>
 
-        <RoundedInput
+        <UiRoundedInput
           v-model="newCharacter.background"
           :options="backgroundOptions"
           label="Предыстория"
           type="select"
           @update:model-value="onChangeBackground"
         />
-        <RoundedInput
+        <UiRoundedInput
           label="Мировоззрение"
           v-model="newCharacter.alignment"
           type="select"
@@ -327,42 +321,42 @@ onUnmounted(() => {
           <UiInfoPopup :text="POPUP_TEXT.skillPoints"/>
         </h4>
         <section class="create-page__abilities">
-          <AbilityCounter
+          <WidgetsAbilityCounter
             label="СИЛ"
             v-model="newCharacter.abilities.strength"
             v-model:available="abilityPoints"
             :bonus-points="bonusPoints.strength"
             v-if="newCharacter.abilities?.strength"
           />
-          <AbilityCounter
+          <WidgetsAbilityCounter
             label="ТЕЛ"
             v-model="newCharacter.abilities.constitution"
             v-model:available="abilityPoints"
             :bonus-points="bonusPoints.constitution"
             v-if="newCharacter.abilities?.constitution"
           />
-          <AbilityCounter
+          <WidgetsAbilityCounter
             label="ЛВК"
             v-model="newCharacter.abilities.dexterity"
             v-model:available="abilityPoints"
             :bonus-points="bonusPoints.dexterity"
             v-if="newCharacter.abilities?.dexterity"
           />
-          <AbilityCounter
+          <WidgetsAbilityCounter
             label="ИНТ"
             v-model="newCharacter.abilities.intelligence"
             v-model:available="abilityPoints"
             :bonus-points="bonusPoints.intelligence"
             v-if="newCharacter.abilities?.intelligence"
           />
-          <AbilityCounter
+          <WidgetsAbilityCounter
             label="МДР"
             v-model="newCharacter.abilities.wisdom"
             v-model:available="abilityPoints"
             :bonus-points="bonusPoints.wisdom"
             v-if="newCharacter.abilities?.wisdom"
           />
-          <AbilityCounter
+          <WidgetsAbilityCounter
             label="ХАР"
             v-model="newCharacter.abilities.charisma"
             v-model:available="abilityPoints"
@@ -398,12 +392,12 @@ onUnmounted(() => {
           Навыки
           <UiInfoPopup :text="POPUP_TEXT.abilities"/>
         </h4>
-        <CharacterSkills
+        <UiCharacterSkills
           v-model:modifier="statsModifiers"
           v-model="newCharacter.skills"
           :bonus-value="proficiencyBonus"
           :background="bonusSkills"
-          :available="availableSkillPoints"
+          :available="availableSkillPoints || 0"
           v-if="newCharacter.skills"/>
       </section>
     </template>
@@ -411,7 +405,7 @@ onUnmounted(() => {
     <template v-if="currentStep === 4">
       <section class="create-page__section">
         <h4 class="create-page__subtitle">Начальное снаряжение</h4>
-        <CharacterEquipment
+        <UiCharacterEquipment
           v-model="newCharacter"
           :class-name="newCharacter.class"
           :strength="newCharacter.abilities?.strength"
@@ -420,7 +414,7 @@ onUnmounted(() => {
 
       <section class="create-page__section">
         <h4 class="create-page__subtitle">Заклинания / умения</h4>
-        <CharacterSpells
+        <UiCharacterSpells
           :spell-list="newCharacter.spells"
           @on-add-spell="onAddSpell"
           @on-delete-spell="onDeleteSpell"
