@@ -87,7 +87,7 @@ watch(() => background, () => {
       <template v-for="[key, skill] in Object.entries(skillsTranslate)" :key="key">
         <li class="skills__item">
           <div class="skills__info">
-            <UiCheckboxUi
+            <UiCheckbox
               :disabled="background.includes(skill.name)"
               :label="skill.name"
               :value="skills[key as keyof typeof skills] || background.includes(skill.name)"
@@ -96,7 +96,7 @@ watch(() => background, () => {
             <span>({{skill.modifierName}})</span>
           </div>
           <div>
-            {{getModifierByName(skill.modifierName, skills[key as keyof typeof skills])}}
+            {{ getModifierByName(skill.modifierName, skills[key as keyof typeof skills]) }}
           </div>
         </li>
       </template>

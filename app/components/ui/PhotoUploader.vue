@@ -3,10 +3,11 @@ import { reactive } from 'vue'
 import { useNotificationStore } from '@/stores/notification.ts'
 import AppLoader from '@/components/ui/AppLoader.vue'
 import { POPUP_TEXT } from '@/constants/InfoText'
+import imageApi from '@/api/image'
 
 const {showNotification} = useNotificationStore()
 
-const image = defineModel<string>()
+const imageId = defineModel<string>()
 
 interface PreviewData {
   image: string,
@@ -24,9 +25,10 @@ const preview = reactive<PreviewData>({
 
 const getImage = (e: Event) => {
   const input = e.target as HTMLInputElement
-  if (!input.files?.length) return;
+  if (!input.files?.[0]) return;
 
   const file: File = input.files[0]
+  if (!file) return
   if (file.size > 1024 * 1024 * 5) return showNotification('Размер загружаемого файла превышает максимальный', 3000, 'error')
   const reader = new FileReader()
 
@@ -41,31 +43,20 @@ const getImage = (e: Event) => {
 const sendFileToServer = async (file: File) => {
   if (!file) return;
 
-  const fileName = `${Date.now()}-${file.name}`
   preview.loading = true
   preview.error = false
 
   try {
-    // const {data, error} = await supabase.storage
-    //   .from('images')
-    //   .upload(fileName, file, {cacheControl: '3600'})
+    
+    const { data } = await imageApi.addImage(file)    
 
-    // if (error) {
-    //   showNotification('Не удалось загрузить изображение', 3000, 'error');
-    //   throw error
-    // }
+    if (!data.success || !data.data?.url) {
+      showNotification('Не удалось загрузить изображение', 3000, 'error');
+      throw new Error()
+    }
 
-    // const {
-    //   data: publicData
-    // } = supabase.storage.from('images').getPublicUrl(fileName)
-
-    // if (!publicData.publicUrl) {
-    //   showNotification('Не удалось получить ссылку на изображение', 3000, 'error')
-    //   return
-    // } else {
-    //   preview.link = publicData.publicUrl
-    //   image.value = publicData.publicUrl
-    // }
+    preview.link = data.data.url
+    imageId.value = data.data.id
   } catch (e) {
     preview.error = true
     console.error(e)
@@ -78,7 +69,7 @@ const deleteImage = () => {
   preview.image = '';
   preview.link = ''
   preview.error = false
-  image.value = ''
+  imageId.value = ''
 }
 </script>
 
