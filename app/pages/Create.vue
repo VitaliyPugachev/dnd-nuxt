@@ -221,19 +221,23 @@ const createNewCharacter = async () => {
 
   loading.value = true;
 
-  newCharacter.combat.currentHp = classHits.value + (statsModifiers.value.constitution * newCharacter.level);
+  try {
+    newCharacter.combat.currentHp = classHits.value + (statsModifiers.value.constitution * newCharacter.level);
 
-  const { success, message } = await characterApi.createCharacter(newCharacter)
+    const { data } = await characterApi.createCharacter(newCharacter)
 
-  if (!success) {
-    showNotification(message || "Не удалось создать персонажа", 3000, 'error');
-  } else {
-    showNotification('Персонаж успешно создан!', 4000);
-    clearData();
-    await router.push('/')
+    if (!data.success) {
+      throw new Error(String(data.message))
+    } else {
+      showNotification('Персонаж успешно создан!', 4000);
+      clearData();
+      await router.push('/')
+    }
+  } catch(e) {
+    showNotification(String(e), 4000, 'error');
+  } finally {
+    loading.value = false;
   }
-
-  loading.value = false;
 }
 
 const nextStep = () => {
@@ -275,7 +279,7 @@ onUnmounted(() => {
 
     <template v-if="currentStep === 1">
       <section class="create-page__section photo">
-        <PhotoUploader v-model="newCharacter.image"/>
+        <PhotoUploader v-model="newCharacter.imageId"/>
       </section>
       <InputUi placeholder="Имя персонажа" ref="nameElement" v-model="newCharacter.name"/>
       <section class="create-page__section">

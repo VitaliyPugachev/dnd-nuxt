@@ -10,7 +10,7 @@ export const useCreateCharacter = () => {
   const newCharacter = reactive<CharacterModel>({
     name: '',
     class: '',
-    image: '',
+    imageId: '',
     race: '',
     level: 1,
     experience: 0,
