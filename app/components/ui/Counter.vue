@@ -9,7 +9,7 @@ const model = defineModel<number>({required: true});
 <template>
   <div class="counter">
     <button :disabled="decDisabled" class="counter__button" @click="$emit('dec')">
-      -
+      <IconsMinus class="icon"/>
     </button>
     <div class="counter__input" :class="{accent: accent}">
       <span>
@@ -17,7 +17,7 @@ const model = defineModel<number>({required: true});
       </span>
     </div>
     <button :disabled="incDisabled" class="counter__button" @click="$emit('inc')">
-      +
+      <IconsPlus class="icon"/>
     </button>
   </div>
 </template>
@@ -29,15 +29,12 @@ const model = defineModel<number>({required: true});
   gap: 4px;
 
   &__input {
-    width: 30px;
+    width: 24px;
     height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 4px;
-    border: 1px solid var(--color-secondary);
-    border-radius: 8px;
-    background: var(--color-main);
     color: var(--color-text);
 
     & span {
@@ -53,9 +50,9 @@ const model = defineModel<number>({required: true});
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-main);
+    background: var(--color-accent-soft);
     border-radius: 8px;
-    border: 1px solid var(--color-secondary);
+    border: 1px solid var(--color-border);
     height: 34px;
     width: 30px;
     cursor: pointer;
@@ -64,6 +61,10 @@ const model = defineModel<number>({required: true});
     &:disabled {
       opacity: 0.4;
       cursor: not-allowed;
+    }
+
+    .icon {
+      color: var(--color-text);
     }
   }
 }

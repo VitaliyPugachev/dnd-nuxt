@@ -2,7 +2,6 @@
 
 
 const {mode} = defineProps<{mode?: "error" | "success"}>()
-const hash = ref(mode === 'error' ? "#C0392B" : "#4CAF50")
 const count = ref(mode === 'error' ? 1 : 20)
 </script>
 
@@ -19,11 +18,11 @@ const count = ref(mode === 'error' ? 1 : 20)
     <path d="M35.6457 17.9534L35.1458 7.95338" stroke="currentColor"/>
     <path d="M7.64576 55.9534L16.6458 51.9534" stroke="currentColor"/>
     <path d="M62.6458 55.4534L54.6459 52.4534" stroke="currentColor"/>
-    <text x="35" y="48" fill="#000" text-anchor="middle" font-size="16" font-weight="600">
+    <text x="35" y="46" :class="mode" fill="#000" text-anchor="middle" font-size="18" font-weight="500">
       {{count || "20"}}
     </text>
     <g filter="url(#filter0_f_4_44)">
-      <path d="M65.5 57.0745L64.7432 57.5061L36.2432 73.7561L35.5 74.1799L34.7568 73.7561L6.25684 57.5061L5.5 57.0745V22.8323L6.25684 22.4007L34.7568 6.15065L35.5 5.72682L36.2432 6.15065L64.7432 22.4007L65.5 22.8323V57.0745Z" :stroke="hash" stroke-opacity="0.7" stroke-width="3"/>
+      <path :class="mode" d="M65.5 57.0745L64.7432 57.5061L36.2432 73.7561L35.5 74.1799L34.7568 73.7561L6.25684 57.5061L5.5 57.0745V22.8323L6.25684 22.4007L34.7568 6.15065L35.5 5.72682L36.2432 6.15065L64.7432 22.4007L65.5 22.8323V57.0745Z" stroke-opacity="0.6" stroke-width="5"/>
     </g>
     <defs>
       <filter id="filter0_f_4_44" x="0" y="0" width="71" height="79.9068" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
@@ -34,3 +33,13 @@ const count = ref(mode === 'error' ? 1 : 20)
     </defs>
   </svg>
 </template>
+
+<style lang="scss" scoped>
+.error {
+  stroke: var(--color-error);
+}
+
+.success {
+  stroke: var(--color-success);
+}
+</style>

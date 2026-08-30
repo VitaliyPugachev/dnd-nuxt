@@ -269,11 +269,10 @@ onUnmounted(() => {
   <div class="create-page">
     <ProgressBar class="create-page__progress" :total="4" :value="currentStep"/>
     <header class="create-page__header">
-      <UiButton class="create-page__exit-button" @click="router.push('/')">
-        <IconsBack/>
-        <span class="create-page__exit-label">
-          Выйти в главное меню
-        </span>
+      <UiButton @click="router.push('/')" label="Выйти в главное меню">
+        <template #before>
+          <IconsBack/>
+        </template>
       </UiButton>
     </header>
 
@@ -283,36 +282,40 @@ onUnmounted(() => {
       </section>
       <InputUi placeholder="Имя персонажа" ref="nameElement" v-model="newCharacter.name"/>
       <section class="create-page__section">
-        <h4 class="create-page__subtitle">Информация о персонаже</h4>
-        <div class="create-page__row">
-          <UiRoundedInput
-            v-model="newCharacter.class"
-            ref="classElement"
-            label="Класс"
-            type="select"
-            :options="characterClasses"
-            @update:model-value="onChangeClass"
-          />
-          <UiRoundedInput
-            v-model="newCharacter.race"
-            label="Раса"
-            type="select"
-            :options="characterRaces"
-            @update:modelValue="(val) => {typeof val === 'string' ? onChangeRace(val): null}"
-          />
-        </div>
+        <UiTitle content="Информация о персонаже">
+          <UiInfoPopup :text="POPUP_TEXT.mainInfo"/>
+        </UiTitle>
+        <UiRoundedInput
+          v-model="newCharacter.class"
+          ref="classElement"
+          label="Класс"
+          placeholder="Выберите класс"
+          type="select"
+          :options="characterClasses"
+          @update:model-value="onChangeClass"
+        />
+        <UiRoundedInput
+          v-model="newCharacter.race"
+          label="Раса"
+          type="select"
+          placeholder="Выберите расу"
+          :options="characterRaces"
+          @update:modelValue="(val) => {typeof val === 'string' ? onChangeRace(val): null}"
+        />
 
         <UiRoundedInput
           v-model="newCharacter.background"
           :options="backgroundOptions"
           label="Предыстория"
           type="select"
+          placeholder="Выберите предысторию"
           @update:model-value="onChangeBackground"
         />
         <UiRoundedInput
           label="Мировоззрение"
           v-model="newCharacter.alignment"
           type="select"
+          placeholder="Выберите мировоззрение"
           :options="characterAlignments"
         />
       </section>
@@ -320,10 +323,9 @@ onUnmounted(() => {
 
     <template v-if="currentStep === 2">
       <section class="create-page__section" ref="abilityElement">
-        <h4 class="create-page__subtitle">
-          Очки способностей
+        <UiTitle content="Очки способностей">
           <UiInfoPopup :text="POPUP_TEXT.skillPoints"/>
-        </h4>
+        </UiTitle>
         <section class="create-page__abilities">
           <WidgetsAbilityCounter
             label="СИЛ"
@@ -368,11 +370,13 @@ onUnmounted(() => {
             v-if="newCharacter.abilities?.charisma"
           />
         </section>
-        <span class="create-page__available">Доступно: {{abilityPoints}}</span>
+        <span class="create-page__available">
+          <span>Доступно: <b>{{abilityPoints}}</b></span>
+        </span>
       </section>
 
       <section class="create-page__section">
-        <h4 class="create-page__subtitle">Расчетные характеристики</h4>
+        <UiTitle content="Расчетные характеристики"/>
         <CharacterSecondaryStats
           :armor="armorClass"
           :initiative="statsModifiers.dexterity"
@@ -384,18 +388,22 @@ onUnmounted(() => {
           <span class="create-page__bonus-value">+{{proficiencyBonus}}</span>
         </div>
 
+
+        <UiTitle content="Модификаторы"/>
         <StatsModifiers :stats="newCharacter.abilities" :bonus-stats="bonusPoints" v-if="newCharacter.abilities"/>
 
+        <UiTitle content="Спасброски">
+          <UiInfoPopup :text="POPUP_TEXT.savingThrows"/>
+        </UiTitle>
         <SavingThrows :bonus="proficiencyBonus" :modifiers="statsModifiers" :saving-throws="newCharacter.savingThrows"/>
       </section>
     </template>
 
     <template v-if="currentStep === 3">
       <section class="create-page__section">
-        <h4 class="create-page__subtitle">
-          Навыки
+        <UiTitle content="Навыки">
           <UiInfoPopup :text="POPUP_TEXT.abilities"/>
-        </h4>
+        </UiTitle>
         <UiCharacterSkills
           v-model:modifier="statsModifiers"
           v-model="newCharacter.skills"
@@ -430,7 +438,7 @@ onUnmounted(() => {
       <UiButton
         v-if="currentStep !== 1"
         class="create-page__button"
-        primary
+        secondary
         label="Назад"
         @click="prevStep"
       />
@@ -457,7 +465,7 @@ onUnmounted(() => {
 .create-page {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
   
   span {
     color: var(--color-text);
@@ -468,12 +476,6 @@ onUnmounted(() => {
     align-items: center;
     align-self: stretch;
     width: 100%;
-  }
-
-  &__exit-button {
-    width: 100%;
-    background: var(--color-secondary);
-    color: var(--color-text-inverted);
   }
 
   &__title {
@@ -498,7 +500,7 @@ onUnmounted(() => {
   &__section {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 12px;
 
     &.photo {
       display: flex;
@@ -509,7 +511,14 @@ onUnmounted(() => {
   }
 
   &__available {
-    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    b {
+      font-weight: 600;
+      color: var(--color-accent);
+    }
   }
 
   &__row {
@@ -547,27 +556,19 @@ onUnmounted(() => {
 
   &__bonus {
     padding: 20px;
-    box-shadow: 0 0 10px var(--color-text);
     border-radius: 12px;
     display: flex;
     align-items: baseline;
     gap: 4px;
+    background: var(--color-bg);
     color: var(--color-text);
+    border: 1px solid var(--color-border);
+    font-size: 18px;
   }
 
-  &__bonus-label,
   &__bonus-value {
+    color: var(--color-accent);
     font-weight: 600;
-  }
-
-  &__bonus-value {
-    font-size: 20px;
-  }
-
-  &__exit-label {
-    font-size: 16px;
-    flex: 1 0;
-    color: var(--color-text-inverted) !important;
   }
 }
 </style>

@@ -87,10 +87,9 @@ const deleteImage = () => {
       <UiButton
         v-if="preview.image && !preview.error && !preview.loading"
         class="photo-uploader__close-button"
-        borderless
         @click="deleteImage"
       >
-        <IconsClose/>
+        <IconsTrash class="icon"/>
       </UiButton>
       <div v-if="preview.loading" class="photo-uploader__loader">
         <AppLoader/>
@@ -108,15 +107,11 @@ const deleteImage = () => {
 
 <style lang="scss" scoped>
 .photo-uploader {
-  width: 200px;
-  height: 200px;
-  border: 6px double var(--color-secondary);
+  width: 160px;
+  height: 160px;
+  border: 6px double var(--color-primary);
   border-radius: 12px;
   position: relative;
-
-  &:hover {
-    box-shadow: 0 0 20px var(--color-progress);
-  }
 
   &__image-wrapper {
     width: 100%;
@@ -136,11 +131,11 @@ const deleteImage = () => {
 
   &__icon {
     position: absolute;
-    left: calc(50% - 20px);
+    left: calc(50% - 16px);
     bottom: -20px;
-    width: 40px;
-    height: 40px;
-    background: var(--color-secondary);
+    width: 32px;
+    height: 32px;
+    background: var(--color-primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -148,17 +143,25 @@ const deleteImage = () => {
   }
 
   &__svg {
-    color: var(--color-accent-secondary);
+    color: var(--color-surface);
   }
 
   &__close-button {
     position: absolute;
-    right: 2px;
-    top: 2px;
-    background: #B83232;
-    color: white;
-    border-radius: 50%;
-    padding: 8px;
+    right: -60px;
+    top: -10px;
+    background: var(--color-error-soft);
+    color: var(--color-error);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-error-border);
+    width: 40px;
+    height: 40px;
+
+    & .icon {
+      height: 18px;
+      width: 18px;
+      fill: var(--color-error);
+    }
   }
 
   &__loader {

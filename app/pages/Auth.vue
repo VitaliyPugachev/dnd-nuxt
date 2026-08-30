@@ -35,7 +35,8 @@ const auth = async () => {
 <template>
   <main class="auth">
     <div class="policy">
-      <input v-model="isAcceptPolicy" class="checkbox" type="checkbox"/>
+      <UiCheckbox v-model="isAcceptPolicy"/>
+      <!-- <input v-model="isAcceptPolicy" class="checkbox" type="checkbox"/> -->
       <span class="policy-text">
       Я ознакомлен с
       <a class="policy-link" target="_blank" href="src/assets/policy.docx">
@@ -80,11 +81,13 @@ const auth = async () => {
   }
 
   & .policy-text {
+    color: var(--color-text);
     font-size: 16px;
   }
 
   & .policy-link {
     color: var(--color-accent);
+    text-underline-offset: 4px;
   }
 }
 </style>

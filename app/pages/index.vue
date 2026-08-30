@@ -18,8 +18,12 @@ const {t} = useI18n()
 
 <template>
   <div class="home-page">
-    <div class="home-page__image-wrapper">
-      <img class="home-page__image" src="/icons/logo.webp">
+    <div class="logo">
+      <div class="home-page__image-wrapper">
+        <img v-if="currentTheme === 'light'" class="home-page__image" src="/images/logo_light.png">
+        <img v-else class="home-page__image" src="/images/logo_dark.png">
+      </div>
+      <h1 class="name"><b>D20</b> Forge</h1>
     </div>
     <UiButton
       :label="t('home.newCharacter')"
@@ -70,17 +74,14 @@ const {t} = useI18n()
 
   &__theme-switcher {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0;
+    right: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 32px;
     width: 32px;
-
-    &.dark {
-      color: var(--color-text-inverted);
-    }
+    color: var(--color-text);
   }
 
   &__button {
@@ -91,6 +92,24 @@ const {t} = useI18n()
     position: absolute;
     right: 20px;
     bottom: 20px;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    padding-bottom: 20px;
+
+    .name {
+      margin-top: -20px;
+      color: var(--color-text);
+    }
+
+    b {
+      color: var(--color-accent);
+      font-weight: 600;
+    }
   }
 }
 </style>

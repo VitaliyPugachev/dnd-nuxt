@@ -4,7 +4,9 @@ import AppLoader from '@/components/ui/AppLoader.vue'
 defineProps<{
   label?: string,
   primary?: boolean,
+  secondary?: boolean,
   small?: boolean,
+  fit?: boolean
   medium?: boolean,
   loading?: boolean,
   borderless?: boolean,
@@ -18,11 +20,13 @@ defineEmits(['click'])
   <button
     class="button"
     :class="{
-    primary: primary,
-    small: small,
-    borderless: borderless,
+    primary,
+    small,
+    borderless,
     background: clearBackground,
-    medium: medium}"
+    secondary,
+    fit,
+    medium }"
     :disabled
     @click="$emit('click')"
   >
@@ -41,10 +45,9 @@ defineEmits(['click'])
 
 <style lang="scss" scoped>
 .button {
-  padding: 8px 20px;
-  background: var(--color-main);
-  border-radius: 6px;
-  border: 1px solid var(--color-text);
+  padding: 0 8px;
+  background: none;
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: background 0.3s;
   color: var(--color-text);
@@ -52,11 +55,15 @@ defineEmits(['click'])
   align-items: center;
   justify-content: center;
   gap: 2px;
+  border: 1px solid var(--color-text-secondary);
+  font-family: 'Cinzel', serif;
+  height: var(--button-height);
+  width: 100%;
 
   &:disabled {
-    color: #adadad;
+    color: var(--color-button-disabled-text);
     cursor: not-allowed;
-    border-color: #adadad;
+    background: var(--color-button-disabled);
   }
 
   &.background {
@@ -76,13 +83,22 @@ defineEmits(['click'])
   }
 
   &.primary {
-    background: var(--color-secondary);
-    color: var(--color-text-inverted);
+    background: var(--color-button-primary);
+    color: var(--color-button-primary-text);
+  }
+
+  &.secondary {
+    background: var(--color-button-secondary);
+    color: var(--color-button-secondary-text);
   }
 
   &__label {
-    font-size: 16px;
+    font-size: var(--font-size-lg);
     white-space: nowrap;
+  }
+
+  &.fit {
+    width: fit-content;
   }
 }
 </style>

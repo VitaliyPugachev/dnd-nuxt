@@ -24,6 +24,7 @@ const closePopup = () => {
             clear-background
             small
             borderless
+            fit
             @click="closePopup"
           >
             <IconsClose/>
@@ -46,7 +47,7 @@ const closePopup = () => {
     z-index: 1000;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--color-overlay);
   }
 
   &__content {
@@ -56,7 +57,7 @@ const closePopup = () => {
     right: 0;
     height: fit-content;
     padding: 16px;
-    background: var(--color-main);
+    background: var(--color-bg);
     z-index: 2;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -65,6 +66,11 @@ const closePopup = () => {
     flex-direction: row;
     justify-content: space-between;
     gap: 8px;
+    outline: double;
+    outline-offset: -4px;
+    outline-color: var(--color-accent);
+    max-height: 90svh;
+    overflow-y: auto;
   }
 
   &__close-button {
@@ -75,6 +81,7 @@ const closePopup = () => {
     font-size: 16px;
     white-space: pre-line;
     color: var(--color-text);
+    text-align: start;
   }
 }
 

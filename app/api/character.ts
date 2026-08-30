@@ -6,6 +6,11 @@ const createCharacter = (data: CharacterModel) => {
   return api.post<CharacterModel, AxiosResponse<Response<CharacterModel>>>('/characters', data)
 }
 
+const getCharacters = () => {
+  return api.get<Response<CharacterModel[]>>('/characters')
+}
+
 export default {
-  createCharacter
+  createCharacter,
+  getCharacters
 }

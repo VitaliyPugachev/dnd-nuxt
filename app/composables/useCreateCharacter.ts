@@ -66,7 +66,7 @@ export const useCreateCharacter = () => {
     const {name, race, background, alignment} = newCharacter;
 
     if (!name || !race || !background || !alignment) {
-      showNotification('Необходимо заполнить все данные персонажа', 3000, 'error')
+      showNotification('Необходимо заполнить все данные персонажа', 4000, 'error')
       return false
     }
     return true
@@ -74,7 +74,7 @@ export const useCreateCharacter = () => {
 
   const validateStepTwo = () => {
     if (abilityPoints.value > 0) {
-      showNotification('Распределите все очки характеристик', 3000, 'error')
+      showNotification('Распределите все очки характеристик', 4000, 'error')
       return false
     }
     return true
@@ -82,7 +82,7 @@ export const useCreateCharacter = () => {
 
   const validateStepThree = (points: number) => {
     if (points > 0) {
-      showNotification('Распределите все очки навыков', 3000, 'error')
+      showNotification('Распределите все очки навыков', 4000, 'error')
       return false
     }
     return true

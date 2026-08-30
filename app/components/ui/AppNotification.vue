@@ -15,7 +15,7 @@ const {closeNotification} = useNotificationStore()
       <span class="notification__text">
         {{message}}
       </span>
-      <UiButton clear-background small borderless @click="closeNotification">
+      <UiButton clear-background small fit borderless @click="closeNotification">
         <IconsClose/>
       </UiButton>
     </div>
@@ -28,23 +28,19 @@ const {closeNotification} = useNotificationStore()
   top: 0;
   right: 0;
   left: 0;
-  padding: 20px;
-  border-radius: 8px;
-  background: white;
-  border: 1px solid var(--color-secondary);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-bg-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
   z-index: 10000;
-
-  &__code {
-    position: absolute;
-    top: 16px;
-    left: 14px;
-    font-size: 10px;
-    font-weight: 600;
-    z-index: 2;
-  }
+  box-shadow: var(--shadow-md);
+  color: var(--color-text);
+  outline: double;
+  outline-offset: -2px;
+  outline-color: var(--color-text);
 
   &__icon-wrapper {
     display: flex;
@@ -57,6 +53,8 @@ const {closeNotification} = useNotificationStore()
     height: 40px;
     width: 40px;
     position: relative;
+    color: var(--color-text);
+    stroke: var(--color-text);
   }
 }
 

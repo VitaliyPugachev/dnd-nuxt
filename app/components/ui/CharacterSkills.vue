@@ -88,10 +88,9 @@ watch(() => background, () => {
         <li class="skills__item">
           <div class="skills__info">
             <UiCheckbox
+              v-model="skills[key as keyof typeof skills]"
               :disabled="background.includes(skill.name)"
               :label="skill.name"
-              :value="skills[key as keyof typeof skills] || background.includes(skill.name)"
-              @update:model-value="val => onSelectSkill(val, () => {skills[key as keyof typeof skills] = !skills[key as keyof typeof skills]})"
             />
             <span>({{skill.modifierName}})</span>
           </div>
@@ -110,16 +109,17 @@ watch(() => background, () => {
   flex-direction: column;
   gap: 20px;
   color: var(--color-text);
+  padding: 12px;
   font-size: 16px;
-  padding: 20px;
-  box-shadow: 0 0 10px var(--color-text);
   border-radius: 12px;
-  background: var(--color-main);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
 
   &__list {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    padding: 0;
 
   }
 

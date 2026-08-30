@@ -6,6 +6,7 @@ defineProps<{hp?: number, armor?: number, initiative?: number, speed?: number, s
   <section class="stats" :class="{small: small}">
     <ul class="stats__list">
       <li class="stats__item" v-if="armor !== undefined">
+        <IconsShield class="icon"/>
         <span class="stats__value">
           {{armor}}
         </span>
@@ -17,6 +18,7 @@ defineProps<{hp?: number, armor?: number, initiative?: number, speed?: number, s
       <div class="stats__divider" v-if="armor !== undefined"></div>
 
       <li class="stats__item" v-if="hp !== undefined">
+        <IconsHealth class="icon"/>
         <span class="stats__value">
           {{hp}}
         </span>
@@ -28,6 +30,7 @@ defineProps<{hp?: number, armor?: number, initiative?: number, speed?: number, s
       <div class="stats__divider" v-if="hp !== undefined"></div>
 
       <li class="stats__item" v-if="initiative !== undefined">
+        <IconsQueue class="icon"/>
         <span class="stats__value">
           {{`${initiative > 0 ? '+' : ''}${initiative}`}}
         </span>
@@ -39,6 +42,7 @@ defineProps<{hp?: number, armor?: number, initiative?: number, speed?: number, s
       <div class="stats__divider" v-if="initiative !== undefined"></div>
 
       <li class="stats__item" v-if="speed !== undefined">
+        <IconsSpeed class="icon"/>
         <span class="stats__value">
           {{speed}}
         </span>
@@ -53,8 +57,9 @@ defineProps<{hp?: number, armor?: number, initiative?: number, speed?: number, s
 <style lang="scss" scoped>
 .stats {
   padding: 20px 10px;
-  box-shadow: 0px 0px 10px var(--color-text);
   border-radius: 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
 
   &.small {
     padding: 12px 8px;
@@ -62,12 +67,13 @@ defineProps<{hp?: number, armor?: number, initiative?: number, speed?: number, s
 
   &__divider {
     align-self: stretch;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-border);
   }
 
   &__list {
     display: flex;
     gap: 4px;
+    padding: 0;
   }
 
   &__item {
@@ -76,7 +82,12 @@ defineProps<{hp?: number, armor?: number, initiative?: number, speed?: number, s
     align-items: center;
     flex-direction: column;
     gap: 4px;
-    justify-content: space-between;
+
+    & .icon {
+      color: var(--color-text);
+      stroke: var(--color-text);
+      fill: var(--color-text);
+    }
   }
 
   &__value {

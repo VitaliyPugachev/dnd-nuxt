@@ -17,7 +17,6 @@ const displayStats = computed<CharacterAbilities>(() => {
 
 <template>
   <section class="modifiers">
-    <h4 class="modifiers__title">Модификаторы</h4>
     <ul class="modifiers__list">
       <li class="modifiers__item">
         <span class="modifiers__label">
@@ -78,13 +77,14 @@ const displayStats = computed<CharacterAbilities>(() => {
 
 <style lang="scss" scoped>
 .modifiers {
-  padding: 20px;
-  box-shadow: 0 0 10px var(--color-text);
+  padding: 12px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
   color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
 
   &__list {
     width: 100%;
@@ -92,6 +92,7 @@ const displayStats = computed<CharacterAbilities>(() => {
     align-items: center;
     justify-content: space-between;
     gap: 4px;
+    padding: 0;
   }
 
   &__title {
@@ -115,7 +116,7 @@ const displayStats = computed<CharacterAbilities>(() => {
     }
 
     &.plus {
-      color: var(--color-accent);
+      color: var(--color-success);
     }
   }
 }

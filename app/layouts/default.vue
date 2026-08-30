@@ -23,26 +23,26 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .layout {
-  background: var(--color-main);
-  min-height: 100svh;
+  background: var(--color-bg);
+  height: 100svh;
+  overflow: auto;
   padding: 32px 16px 16px 16px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 480px;
+  max-width: 767px;
   margin: 0 auto;
 
   &.app-dark-theme {
     background:
-      url('/images/bg-dark.webp') repeat,
-      linear-gradient(#f6eedc, #ece1c4);
-    background-size: auto 100%;
+      linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+      url('/images/background_dark.png');
+    background-size: cover;
   }
 
   &.app-light-theme {
     background:
-      url('/images/bg-light.webp') repeat,
-      linear-gradient(#f6eedc, #ece1c4);
+      url('/images/background_light.png');
     background-size: cover;       /* Растягивает фон на всю ширину и высоту */
     background-position: bottom;
   }

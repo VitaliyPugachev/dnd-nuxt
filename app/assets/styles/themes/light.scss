@@ -1,12 +1,118 @@
 .app-light-theme {
-  --color-main: #FAF6F1;
-  --color-secondary: #C4694A;
-  --color-accent: #C9A24D;
-  --color-error: #B83232;
-  --color-accent-secondary: #FFFFFF;
-  --color-progress: #FFD700;
-  --color-disabled: #e9e9e9;
+/* =========================
+     COLORS — BASE
+     ========================= */
 
-  --color-text: #2E2A27;
-  --color-text-inverted: #FAF6F1;
+  --color-bg: #f4ecda;
+  --color-bg-secondary: #e9dcc3;
+  --color-surface: #faf5e9;
+  --color-surface-secondary: #efe4ce;
+
+  --color-border: #cbb58d;
+  --color-border-light: #dfceb0;
+  --color-divider: #d8c39d;
+
+  /* =========================
+     TEXT
+     ========================= */
+
+  --color-text: #3b2b1e;
+  --color-text-secondary: #725d45;
+  --color-text-muted: #9a876b;
+  --color-text-inverse: #fffaf0;
+
+  /* =========================
+     PRIMARY / ACCENT
+     ========================= */
+
+  --color-primary: #b98222;
+  --color-primary-hover: #9d6b19;
+  --color-primary-active: #865b16;
+  --color-primary-soft: #ead5a7;
+
+  --color-accent: #6d4631;
+  --color-accent-soft: #ddc5a7;
+
+  /* =========================
+     SUCCESS
+     ========================= */
+
+  --color-success: #53733c;
+  --color-success-soft: #dfe8d3;
+  --color-success-border: #aabd8f;
+
+  /* =========================
+     ERROR
+     ========================= */
+
+  --color-error: #9d3e2e;
+  --color-error-soft: #f0d8d1;
+  --color-error-border: #cf8d7f;
+
+  /* =========================
+     WARNING
+     ========================= */
+
+  --color-warning: #ad741d;
+  --color-warning-soft: #f2e4be;
+  --color-warning-border: #d4b36e;
+
+  /* =========================
+     BUTTONS
+     ========================= */
+
+  --color-button-primary: #b98222;
+  --color-button-primary-hover: #9d6b19;
+  --color-button-primary-text: #fffaf0;
+
+  --color-button-secondary: #6d4631;
+  --color-button-secondary-hover: #563724;
+  --color-button-secondary-text: #fffaf0;
+
+  --color-button-disabled: #d8cdbb;
+  --color-button-disabled-text: #a99a84;
+
+  /* =========================
+     INPUTS
+     ========================= */
+
+  --color-input-bg: #fbf7ee;
+  --color-input-border: #cdbb9b;
+  --color-input-focus: #b98222;
+  --color-input-placeholder: #a89982;
+  --color-input-text: #3b2b1e;
+
+  /* =========================
+     OVERLAY / MODAL
+     ========================= */
+
+  --color-overlay: rgba(43, 30, 20, 0.55);
+  --color-modal-bg: #f7efdf;
+  --color-modal-border: #cdb68c;
+
+  /* =========================
+     NAVIGATION
+     ========================= */
+
+  --color-nav-bg: #eee2cc;
+  --color-nav-active: #b98222;
+  --color-nav-inactive: #89755b;
+  --color-nav-border: #d2bea0;
+
+  /* =========================
+     D20 / FANTASY
+     ========================= */
+
+  --color-d20: #a97a22;
+  --color-d20-highlight: #d7ad52;
+  --color-gold: #c79a43;
+  --color-bronze: #8a6134;
+
+    /* =========================
+     SHADOW
+     ========================= */
+
+  --shadow-sm: 0 2px 6px rgba(67, 48, 29, 0.12);
+  --shadow-md: 0 6px 18px rgba(67, 48, 29, 0.16);
+  --shadow-lg: 0 12px 32px rgba(67, 48, 29, 0.2);
 }

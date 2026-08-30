@@ -69,15 +69,19 @@ const upgradeCost = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: 4px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  background: var(--color-bg);
 
   &__label {
     font-size: 16px;
-    font-weight: 600;
     color: var(--color-text);
   }
 
   &__bonus {
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 600;
     align-self: start;
     color: var(--color-accent);
   }

@@ -11,6 +11,7 @@ import AppLoader from '@/components/ui/AppLoader.vue'
 import { storeToRefs } from 'pinia'
 import { useNotificationStore } from '@/stores/notification.ts'
 import ModalComponent from '@/components/widgets/ModalComponent.vue'
+import charactersApi from '@/api/character'
 
 const router = useRouter()
 const loading = ref(false);
@@ -31,15 +32,19 @@ const getALlCharacters = async () => {
 
   loading.value = true;
 
-  // let { data: Character, error } = await supabase
-  //   .from('Character')
-  //   .select('*')
-  //   .eq('userId', userId.value)
-  // if (!error) {
-  //   charactersList.value = Character || []
-  // }
+  try {
+    const { data } = await charactersApi.getCharacters()
 
-  loading.value = false;
+    if (!data) {
+      throw new Error('Не удалось получить данные')
+    }
+
+    charactersList.value = data.data || []
+  } catch (e) {
+    showNotification(String(e), 3000, 'error')
+  } finally {
+    loading.value = false;
+  }
 }
 
 const onDeleteClick = (character?: CharacterModel) => {

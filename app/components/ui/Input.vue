@@ -8,15 +8,24 @@ const model = defineModel();
 </template>
 
 <style lang="scss" scoped>
+
+  // --color-input-focus: #b98222;
+  // --color-input-placeholder: #a89982;
+  // --color-input-text: #3b2b1e;
 .input {
-  padding: 8px 10px;
+  padding: 12px 10px;
   font-size: 16px;
-  border-radius: 8px;
-  background: var(--color-accent-secondary);
-  outline-color: var(--color-accent);
-  box-shadow: 0 4px 20px rgba(0, 0 ,0 , 0.15);
-  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-input-bg);
+  outline: none;
+  border: 1px solid var(--color-input-border);
   color: var(--color-text);
+  color: var(--color-input-text);
+
+  &:focus {
+    outline: 1px solid var(--color-input-focus)
+  }
+
   &.compact {
     padding: 4px 6px;
   }

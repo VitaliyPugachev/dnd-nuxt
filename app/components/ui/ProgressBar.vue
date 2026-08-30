@@ -3,10 +3,17 @@ import { computed } from 'vue'
 
 const {value, total} = defineProps<{value: number, total: number}>()
 
+const percentBySteps: Record<number, number> = {
+  1: 20,
+  2: 50,
+  3: 80,
+  4: 100
+}
+
 const currentPercent = computed(() => {
   if (!value || !total) return '0%';
 
-  return `${(value / (total - 1)) * 100}%`
+  return `${percentBySteps[value]}%`
 })
 
 const isActive = (progress: number) => {
@@ -32,14 +39,13 @@ const isActive = (progress: number) => {
 .progress-bar {
   width: 100%;
   position: relative;
-  background: var(--color-accent-secondary);
+  background: var(--color-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
   overflow: hidden;
-  padding: 2px 0;
-  height: 16px;
+  height: 8px;
   margin-bottom: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 
@@ -52,7 +58,7 @@ const isActive = (progress: number) => {
     top: 0;
     bottom: 0;
     left: 0;
-    background: var(--color-progress);
+    background: var(--color-bronze);
     width: 100%;
   }
 
@@ -65,35 +71,37 @@ const isActive = (progress: number) => {
   &__step {
     position: absolute;
     z-index: 2;
-    top: -14px;
-    height: 42px;
-    width: 42px;
+    top: -18px;
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
     font-size: 16px;
-    background: var(--color-accent-secondary);
+    background: var(--color-bg);
+    color: var(--color-gold);
 
     &.active {
-      background: var(--color-progress);
+      border: 4px solid var(--color-gold);
+      box-shadow: 0px 0px 14px 4px var(--color-gold);
     }
 
     &:nth-child(1) {
-      left: 0;
+      left: -4px;
     }
 
     &:nth-child(2) {
-      left: calc((100% - 42px) / 3);
+      left: calc((100% - 40px) / 3);
     }
 
     &:nth-child(3) {
-      left: calc(2 * (100% - 42px) / 3);
+      left: calc(2 * (100% - 40px) / 3);
     }
 
     &:nth-child(4) {
-      left: calc(100% - 42px);
+      left: calc(100% - 38px);
     }
   }
 }
