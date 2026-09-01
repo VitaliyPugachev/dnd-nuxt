@@ -82,10 +82,11 @@ const isActive = (progress: number) => {
     font-size: 16px;
     background: var(--color-bg);
     color: var(--color-gold);
+    box-shadow: inset 0px 0px 2px 0px var(--color-bronze);
 
     &.active {
       border: 4px solid var(--color-gold);
-      box-shadow: 0px 0px 14px 4px var(--color-gold);
+      box-shadow: 0px 0px 10px 2px var(--color-gold);
     }
 
     &:nth-child(1) {

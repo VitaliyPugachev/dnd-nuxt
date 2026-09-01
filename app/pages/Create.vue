@@ -30,6 +30,7 @@ import { useCreateCharacter } from '@/composables/useCreateCharacter.ts'
 import PhotoUploader from '@/components/ui/PhotoUploader.vue'
 import { POPUP_TEXT } from '@/constants/InfoText.ts'
 import characterApi from '@/api/character'
+import AppHeader from '~/components/widgets/AppHeader.vue'
 
 const router = useRouter();
 const loading = ref(false);
@@ -267,14 +268,8 @@ onUnmounted(() => {
 
 <template>
   <div class="create-page">
+    <WidgetsAppHeader/>
     <ProgressBar class="create-page__progress" :total="4" :value="currentStep"/>
-    <header class="create-page__header">
-      <UiButton @click="router.push('/')" label="Выйти в главное меню">
-        <template #before>
-          <IconsBack/>
-        </template>
-      </UiButton>
-    </header>
 
     <template v-if="currentStep === 1">
       <section class="create-page__section photo">
@@ -282,7 +277,7 @@ onUnmounted(() => {
       </section>
       <InputUi placeholder="Имя персонажа" ref="nameElement" v-model="newCharacter.name"/>
       <section class="create-page__section">
-        <UiTitle content="Информация о персонаже">
+        <UiTitle content="о персонаже">
           <UiInfoPopup :text="POPUP_TEXT.mainInfo"/>
         </UiTitle>
         <UiRoundedInput
@@ -376,7 +371,7 @@ onUnmounted(() => {
       </section>
 
       <section class="create-page__section">
-        <UiTitle content="Расчетные характеристики"/>
+        <UiTitle content="характеристики"/>
         <CharacterSecondaryStats
           :armor="armorClass"
           :initiative="statsModifiers.dexterity"
@@ -471,13 +466,6 @@ onUnmounted(() => {
     color: var(--color-text);
   }
 
-  &__header {
-    display: flex;
-    align-items: center;
-    align-self: stretch;
-    width: 100%;
-  }
-
   &__title {
     font-size: 24px;
     font-weight: 600;
@@ -542,9 +530,6 @@ onUnmounted(() => {
   &__footer {
     display: flex;
     gap: 12px;
-    position: sticky;
-    bottom: 20px;
-    margin-top: auto;
     width: 100%;
     background: transparent;
     z-index: 2;

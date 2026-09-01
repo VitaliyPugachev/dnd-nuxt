@@ -18,6 +18,7 @@ onMounted(() => {
   <main :class="['layout', theme]">
     <NuxtPage/>
     <UiAppNotification/>
+    <WidgetsSidebar/>
   </main>
 </template>
 
@@ -26,7 +27,7 @@ onMounted(() => {
   background: var(--color-bg);
   height: 100svh;
   overflow: auto;
-  padding: 32px 16px 16px 16px;
+  padding: 0 16px 16px 16px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -45,10 +46,6 @@ onMounted(() => {
       url('/images/background_light.png');
     background-size: cover;       /* Растягивает фон на всю ширину и высоту */
     background-position: bottom;
-  }
-
-  @media screen and (min-width: 400px){
-    padding-inline: 30px;
   }
 }
 </style>

@@ -1,33 +1,25 @@
 <script lang="ts" setup>
-defineProps<{content: string}>()
 </script>
 
 <template>
-  <h4 class="title">
-    {{ content }}
-    <div class="overlay">
+  <div class="text-decorator">
+    <span>
       <slot/>
-    </div>
-  </h4>
+    </span>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.title {
+.text-decorator {
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: var(--font-size-lg);
-  letter-spacing: 0.06em;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  position: relative;
-  width: 100%;
-  padding: 12px 40px 8px 40px;
   gap: 12px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: var(--font-size-lg);
 
-  
   &::before,
   &::after {
     content: "";
@@ -38,15 +30,6 @@ defineProps<{content: string}>()
 
   &::after {
     background: linear-gradient(to left, transparent, var(--color-border));
-  }
-
-  .overlay {
-    position: absolute;
-    right: 0;
-    top: 10px;
-    &:empty {
-      display: none;
-    }
   }
 }
 </style>

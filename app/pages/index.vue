@@ -11,7 +11,6 @@ definePageMeta({
 
 const router = useRouter();
 const {currentTheme} = storeToRefs(useThemeStore())
-const {changeTheme} = useThemeStore()
 const {t} = useI18n()
 
 </script>
@@ -36,14 +35,6 @@ const {t} = useI18n()
       class="home-page__button"
       @click="router.push('/select')"
     />
-    <div
-      class="home-page__theme-switcher"
-      :class="currentTheme"
-      @click="changeTheme"
-    >
-      <IconsMoon v-if="currentTheme === 'light'"/>
-      <IconsSun v-else class="home-page__sun-icon"/>
-    </div>
     <LanguageSwitcher class="lang"/>
   </div>
 </template>
@@ -70,18 +61,6 @@ const {t} = useI18n()
     height: 100%;
     object-fit: cover;
     margin-top: 20px;
-  }
-
-  &__theme-switcher {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 32px;
-    width: 32px;
-    color: var(--color-text);
   }
 
   &__button {
