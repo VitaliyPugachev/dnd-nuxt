@@ -30,7 +30,7 @@ const onTabSelect = (tabValue: string) => {
 .tabs {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
 
   &__item {
     flex: 1 0;
@@ -40,9 +40,11 @@ const onTabSelect = (tabValue: string) => {
     border-bottom: 2px solid transparent;
     user-select: none;
     cursor: pointer;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
 
     &.selected {
-      border-bottom: 2px solid var(--color-secondary);
+      background: var(--color-accent-soft);
     }
   }
 }

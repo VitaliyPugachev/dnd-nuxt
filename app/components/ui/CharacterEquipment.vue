@@ -12,6 +12,8 @@ import { armorList } from '@/constants/ArmorList.ts'
 import type { ArmorModel } from '@/types/ArmorModel.ts'
 import { getArmorProficient } from '@/utils/getEquipmentProficient.ts'
 
+type Section = 'weapon' | 'armor' | 'things' | null
+
 const {strength = 8, className} = defineProps<{className?: string, strength?: number}>()
 const model = defineModel<CharacterModel>({required:true});
 
@@ -63,35 +65,65 @@ const onDeleteArmor = (armor: ArmorModel) => {
   model.value.equipment?.armor?.splice(index, 1);
 }
 
+const isMethodModalOpen = ref(false)
+const selectedSection = ref<Section>(null)
+
+const openModal = (section: Section) => {
+  selectedSection.value = section
+  isMethodModalOpen.value = true
+}
+
+const onSearchClick = () => {
+  switch(selectedSection.value) {
+    case('weapon'):
+      isWeaponModalOpen.value = true
+      break;
+    case('armor'):
+      isArmorModalOpen.value = true
+      break;
+    case('things'):
+      break;
+  }
+
+  isMethodModalOpen.value = false
+}
+
 </script>
 
 <template>
   <div class="equipment">
     <div class="equipment__section">
       <section class="equipment__header">
-        <h4 class="equipment__subtitle">Оружие</h4>
-        <UiButton clear-background medium label="Добавить" @click="isWeaponModalOpen = true">
-          <template #before>
-            <IconsAdd/>
-          </template>
-        </UiButton>
+        <div class="equipment__icon">
+          <IconsWeapon/>
+        </div>
+        <div class="equipment__description">
+          <h4 class="equipment__subtitle">Оружие</h4>
+          Выбрано: {{ model.equipment?.weapons?.length ?? 0 }}
+        </div>
       </section>
 
       <section class="equipment__list">
         <template v-for="weapon in model.equipment?.weapons" :key="weapon.name">
           <WeaponCard :weapon deletable @on-delete="onDeleteWeapon"/>
         </template>
+        <UiButton clear-background label="Добавить" @click="openModal('weapon')">
+          <template #before>
+            <IconsAdd/>
+          </template>
+        </UiButton>
       </section>
     </div>
 
     <div class="equipment__section">
       <section class="equipment__header">
-        <h4 class="equipment__subtitle">Броня</h4>
-        <UiButton clear-background medium label="Добавить" @click="isArmorModalOpen = true">
-          <template #before>
-            <IconsAdd/>
-          </template>
-        </UiButton>
+        <div class="equipment__icon">
+          <IconsArmor/>
+        </div>
+        <div class="equipment__description">
+          <h4 class="equipment__subtitle">Доспехи</h4>
+          Выбрано: {{ model.equipment?.armor?.length ?? 0 }}
+        </div>
       </section>
 
       <section class="equipment__list">
@@ -100,15 +132,61 @@ const onDeleteArmor = (armor: ArmorModel) => {
             :is-heavy="strength < Number(armor.strengthRequirement)"
             :proficient="getArmorProficient(armor, className)"
             :armor
-            :equipped="armor.type === 'щит' || index === 0 || (!!model.equipment?.armor?.length && model.equipment.armor[0].type === 'щит' && index === 1)"
+            :equipped="armor.type === 'щит' || index === 0 || (!!model.equipment?.armor?.length && model?.equipment?.armor[0]?.type === 'щит' && index === 1)"
             deletable
             @on-delete="onDeleteArmor"
           />
         </template>
+        <UiButton clear-background label="Добавить" @click="openModal('armor')">
+          <template #before>
+            <IconsAdd/>
+          </template>
+        </UiButton>
       </section>
     </div>
 
+    <div class="equipment__section">
+      <section class="equipment__header">
+        <div class="equipment__icon">
+          <IconsBackpack/>
+        </div>
+        <div class="equipment__description">
+          <h4 class="equipment__subtitle">Предметы</h4>
+          Выбрано: {{ model.equipment?.weapons?.length ?? 0 }}
+        </div>
+      </section>
+
+      <section class="equipment__list">
+        <template v-for="weapon in model.equipment?.weapons" :key="weapon.name">
+          <WeaponCard :weapon deletable @on-delete="onDeleteWeapon"/>
+        </template>
+        <UiButton clear-background label="Добавить" @click="openModal('things')">
+          <template #before>
+            <IconsAdd/>
+          </template>
+        </UiButton>
+      </section>
+    </div>
   </div>
+
+  <ModalComponent :visible="isMethodModalOpen" @close="isMethodModalOpen = false">
+    <div class="methods-modal">
+      <div class="methods-modal__header">
+        <span class="methods-modal__title">Выберите способ добавления</span>
+        <UiButton medium borderless class="methods-modal__close" @click="isMethodModalOpen = false">
+          <IconsClose />
+        </UiButton>
+      </div>
+      <div class="methods-modal__select" @click="onSearchClick">
+        <IconsSearch class="methods-modal__icon"/>
+        Выбрать
+      </div>
+      <div class="methods-modal__select">
+        <IconsPlusOutline class="methods-modal__icon"/>
+        Создать свое
+      </div>
+    </div>
+  </ModalComponent>
 
   <ModalComponent :visible="isWeaponModalOpen" @close="isWeaponModalOpen = false">
     <div class="create-weapon">
@@ -150,23 +228,28 @@ const onDeleteArmor = (armor: ArmorModel) => {
 .equipment {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
   color: var(--color-text);
 
   &__subtitle {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
   }
+
   &__header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 24px;
   }
 
   &__section {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
   }
 
   &__list {
@@ -174,6 +257,25 @@ const onDeleteArmor = (armor: ArmorModel) => {
     flex-direction: column;
     gap: 8px;
   }
+
+  &__icon {
+    width: 60px;
+    height: 60px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
 }
 
 .create-weapon {
@@ -182,12 +284,15 @@ const onDeleteArmor = (armor: ArmorModel) => {
   gap: 8px;
   height: 90vh;
   color: var(--color-text);
-  padding-top: 12px;
+  padding: 30px 12px 12px 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
 
   &__close {
     position: absolute;
-    right: 4px;
-    top: 4px;
+    right: 12px;
+    top: 8px;
+    width: 50px;
   }
 
   &__list {
@@ -196,5 +301,54 @@ const onDeleteArmor = (armor: ArmorModel) => {
     gap: 4px;
     overflow: auto;
   }
+}
+
+.methods-modal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background: var(--color-bg);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  position: relative;
+  color: var(--color-text);
+
+  &__close {
+    position: absolute;
+    right: 0;
+    top: -6px;
+    width: 40px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    grid-column: 1 / span 2;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__icon {
+    color: var(--color-border);
+  }
+
+  &__select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    flex: 1;
+    padding: 24px;
+    border: 1px solid var(--color-text);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-secondary);
+  }
+
 }
 </style>

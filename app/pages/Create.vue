@@ -411,7 +411,7 @@ onUnmounted(() => {
 
     <template v-if="currentStep === 4">
       <section class="create-page__section">
-        <h4 class="create-page__subtitle">Начальное снаряжение</h4>
+        <UiTitle content="Снаряжение"/>
         <UiCharacterEquipment
           v-model="newCharacter"
           :class-name="newCharacter.class"
@@ -420,7 +420,7 @@ onUnmounted(() => {
       </section>
 
       <section class="create-page__section">
-        <h4 class="create-page__subtitle">Заклинания / умения</h4>
+        <UiTitle content="Заклинания / умения"/>
         <UiCharacterSpells
           :spell-list="newCharacter.spells"
           @on-add-spell="onAddSpell"

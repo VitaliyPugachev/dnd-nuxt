@@ -24,7 +24,7 @@ defineProps<{content: string}>()
   text-transform: uppercase;
   position: relative;
   width: 100%;
-  padding: 12px 40px 8px 40px;
+  padding: 12px 30px 8px 30px;
   gap: 12px;
 
   
@@ -32,7 +32,7 @@ defineProps<{content: string}>()
   &::after {
     content: "";
     flex: 1;
-    height: 1px;
+    height: 4px;
     background: linear-gradient(to right, transparent, var(--color-border));
   }
 

@@ -46,7 +46,7 @@
   left: 0;
   width: 100vw;
   height: 100svh;
-  background-color: rgba(0, 0, 0, 0.5); /* затемнение */
+  background-color: rgba(0, 0, 0, 0.8); /* затемнение */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +55,7 @@
 
 .modal-content {
   background: var(--color-main);
-  padding: 16px;
+  padding: 12px;
   border-radius: 12px;
   max-width: 90%;
   overflow-y: auto;
